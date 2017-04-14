@@ -1,7 +1,7 @@
 <html>
 <head>
 <title>JavaScriptSpellCheck - Hello World</title>
-<script type='text/javascript' src='https://nnycmspellcheck.herokuapp.com/JavaScriptSpellCheck/include.php' ></script>
+<script type='text/javascript' src='https://nnycmspellcheck.herokuapp.com/JavaScriptSpellCheck/include.js' ></script>
 <script type='text/javascript'>
 $Spelling.DefaultDictionary = 'English (USA)'
 $Spelling.SpellCheckAsYouType('myTextArea')
