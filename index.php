@@ -21,7 +21,7 @@ function onclick() {
 <textarea name="myTextArea"  id="myTextArea" cols="50" rows="20">Hello Worlb. This Example show JavaScript Spellcheck "as-you-Type" and also spellchecking window functionality on the same page.  Implementation is easy using only a few lines of Java Script - and will work on alost all modern web hosting packages - both Linux and Windows based. </textarea>
 
 <iframe src="https://nnycmspellcheck.herokuapp.com/JavaScriptSpellCheck" name="myFrame" frameborder="0"></iframe>
-<p><a href="onclick()" target="myFrame">Spell Check</a></p>
+<p><a href="parent.onclick();" target="myFrame">Spell Check</a></p>
 
 </body>
 </html>
