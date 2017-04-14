@@ -11,9 +11,12 @@ $Spelling.SpellCheckAsYouType('myTextArea')
 <body>
 
 <textarea name="myTextArea"  id="myTextArea" cols="50" rows="20">Hello Worlb. This Example show JavaScript Spellcheck "as-you-Type" and also spellchecking window functionality on the same page.  Implementation is easy using only a few lines of Java Script - and will work on alost all modern web hosting packages - both Linux and Windows based. </textarea>
-<iframe src="https://nnycmspellcheck.herokuapp.com/JavaScriptSpellCheck/include.js" width="555" height="200">
-<input type="button" value="Spell Check" onclick="$Spelling.SpellCheckInWindow('myTextArea')">
+
+<iframe id="myFrame">
+<a onclick="parent.$Spelling.SpellCheckInWindow('myTextArea')" href="#">Call Me</a>
 </iframe>
+
+<!-- <input type="button" value="Spell Check" onclick="$Spelling.SpellCheckInWindow('myTextArea')"> -->
 
 </body>
 </html>
