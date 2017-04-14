@@ -9,7 +9,11 @@
 ?>
 <head>
 <title>JavaScriptSpellCheck - Hello World</title>
-<!--<script type='text/javascript' src='https://nnycmspellcheck.herokuapp.com/JavaScriptSpellCheck/include.js' ></script> -->
+<script type='text/javascript' src='https://nnycmspellcheck.herokuapp.com/JavaScriptSpellCheck/include.php' ></script>
+<script type='text/javascript'>
+$Spelling.DefaultDictionary = 'English (USA)'
+$Spelling.SpellCheckAsYouType('myTextArea')
+</script>
 <script type='text/javascript'>
 // Create the XHR object.
 function createCORSRequest(method, url) {
@@ -49,8 +53,6 @@ function makeCorsRequest() {
         var text = xhr.responseText;
         var title = getTitle(text);
         alert('Response from CORS request to ' + url + ': ' + title);
-        $Spelling.DefaultDictionary = 'English (USA)'
-        $Spelling.SpellCheckAsYouType('myTextArea')
     };
     
     xhr.onerror = function() {
@@ -60,7 +62,7 @@ function makeCorsRequest() {
     xhr.send();
 }
 
-makeCorsRequest();
+//makeCorsRequest();
 
 </script>
 
