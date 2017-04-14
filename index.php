@@ -1,8 +1,9 @@
+<html>
 <?php
     header("Access-Control-Allow-Origin: *");
     header("Access-Control-Allow-Methods: GET, POST");
-?>
-<html>
+    exit;
+    ?>
 <head>
 <title>JavaScriptSpellCheck - Hello World</title>
 <script type='text/javascript' src='https://nnycmspellcheck.herokuapp.com/JavaScriptSpellCheck/include.js' ></script>
