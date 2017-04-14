@@ -49,6 +49,8 @@ function makeCorsRequest() {
         var text = xhr.responseText;
         var title = getTitle(text);
         alert('Response from CORS request to ' + url + ': ' + title);
+        $Spelling.DefaultDictionary = 'English (USA)'
+        $Spelling.SpellCheckAsYouType('myTextArea')
     };
     
     xhr.onerror = function() {
@@ -60,11 +62,6 @@ function makeCorsRequest() {
 
 makeCorsRequest();
 
-</script>
-
-<script type='text/javascript'>
-$Spelling.DefaultDictionary = 'English (USA)'
-$Spelling.SpellCheckAsYouType('myTextArea')
 </script>
 
 </head>
