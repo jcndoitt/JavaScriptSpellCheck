@@ -16,7 +16,5 @@ $Spelling.SpellCheckAsYouType('myTextArea')
 <a onclick="parent.$Spelling.SpellCheckInWindow('myTextArea')" href="#">Call Me</a>
 </iframe>
 
-<!-- <input type="button" value="Spell Check" onclick="$Spelling.SpellCheckInWindow('myTextArea')"> -->
-
 </body>
 </html>
