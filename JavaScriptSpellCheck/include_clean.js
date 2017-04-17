@@ -1,6 +1,4 @@
 function LiveSpellInstance($setup) {
-	//JCN added variable
-	myServerPath = 'https://nnycmspellcheck.herokuapp.com/JavaScriptSpellCheck/';
     livespell.spellingProviders.push(this),
         this.Fields = "ALL", this.IgnoreAllCaps = !0, this.IgnoreNumeric = !0, this.CaseSensitive = !0, this.CheckGrammar = !0, this.Language = "English (International)", this.MultiDictionary = !1, this.UserInterfaceLanguage = "en", this.CSSTheme = "classic", this.SettingsFile = "default-settings", this.ServerModel = "", this.Delay = 888, this.WindowMode = "modal", this.Strict = !0, this.ShowSummaryScreen = !0, this.ShowMeanings = !0, this.FormToSubmit = "", this.MeaningProvider = "http://www.thefreedictionary.com/{word}", this.UndoLimit = 20, this.HiddenButtons = "", this.CustomOpener = null, this.CustomOpenerClose = null, this.RightClickOnly = !livespell.test.iPhone(), this.ShowLangInContextMenu = !0, this.BypassAuthentication = !1, this.UserSpellingInitiated = !1, this.UserSpellingComplete = !1, this.AddWordsToDictionary = "USER", this.SetUserInterfaceLanguage = function(l) {
             this.UserInterfaceLanguage = l, livespell.lang.load(l)
