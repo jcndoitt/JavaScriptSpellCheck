@@ -481,21 +481,11 @@ function JavaScriptSpellCheckObj($setup) {
         var o = new LiveSpellInstance;
         // Notify NYC Changes: Added setup typo dictionary
         if (this.dictServerPath.includes("\/typo\/")) {
-        	this.setupTypoDictionary(this.DefaultDictionary);
+        	livespell.setupTypoDictionary(this.DefaultDictionary);
         }
         // Notify NYC Changes: Added dictServerPath
         return o.isUniPacked = !0, o.Language = this.DefaultDictionary, o.UserInterfaceLanguage = this.UserInterfaceTranslation, Fields = this.findf(Fields, PassedArgs), o.Fields = this.ManageFields(Fields), o.IgnoreAllCaps = this.IgnoreAllCaps, o.IgnoreNumeric = this.IgnoreNumbers, o.WindowMode = this.PopUpStyle, o.CSSTheme = this.Theme, o.FormToSubmit = this.SubmitFormById, o.ShowSummaryScreen = this.ShowStatisticsScreen, o.ShowMeanings = this.ShowThesaurus, o.AddWordsToDictionary = this.AddWordsToDictionary, o.ShowMeanings = this.ShowThesaurus, o.ShowLangInContextMenu = this.ShowLanguagesInContextMenu, o.ServerModel = this.ServerModel, o.CaseSensitive = this.CaseSensitive, o.CheckGrammar = this.CheckGrammar, o.dictServerPath = this.dictServerPath, o
     }
-    // Notify NYC Changes: Added setupTypoDictionary
-    , this.setupTypoDictionary = function(lang) {
-    	if (!(lang in gLanguageMap)) {
-    		throw("Dictionary " + lang + " not supported.");
-    	}
-    	if (!(lang in gTypoDictionary)) {
-    		gTypoDictionary[lang] = new Typo(gLanguageMap[lang], false, false, { dictionaryPath: "JavaScriptSpellCheck/typo/dictionaries" });
-    	}
-    }
-
 }
 
 function E$(id) {
@@ -550,13 +540,6 @@ if ("undefined" == typeof JavaScriptSpellCheck || !JavaScriptSpellCheck) var Jav
     $spelling = JavaScriptSpellCheck;
 if ("undefined" == typeof livespell) {
 	
-	// NOTIFY NYC Changes: Added dictionary for TypoJS
-	// Only English is supported now
-	var gLanguageMap = {
-			"English (USA)" : "en_US", 
-			"English (International)" : "en_US",
-	}
-	var gTypoDictionary = {};
 
     var livespell = {
         version: "5.2.180314",
@@ -570,6 +553,13 @@ if ("undefined" == typeof livespell) {
         addedJsFiles: [],
         maxURI: 999,
         onLoadDelay: 50,
+    	// NOTIFY NYC Changes: Added language map and dictionary for TypoJS
+    	// Only English is supported now
+    	gLanguageMap : {
+    			"English (USA)" : "en_US", 
+    			"English (International)" : "en_US",
+    	},
+    	gTypoDictionary: {},
         getElementsByClass: function(className) {
             for (var element, hasClassName = new RegExp("(?:^|\\s)" + className + "(?:$|\\s)"), allElements = document.getElementsByTagName("*"), results = [], i = 0; i < allElements.length; i++) {
                 element = allElements[i];
@@ -600,6 +590,15 @@ if ("undefined" == typeof livespell) {
             }
             return livespell.ajax.debug("<h1>Spell Check Server Mode Detected & Changed to " + mode.toUpperCase() + "</h1>", !1), livespell.rubberRingServerModel = mode, mode
         },
+        // Notify NYC Changes: Added setupTypoDictionary
+       setupTypoDictionary: function(lang) {
+        	if (!(lang in this.gLanguageMap)) {
+        		throw("Dictionary " + lang + " not supported.");
+        	}
+        	if (!(lang in this.gTypoDictionary)) {
+        		this.gTypoDictionary[lang] = new Typo(this.gLanguageMap[lang], false, false, { dictionaryPath: "JavaScriptSpellCheck/typo/dictionaries" });
+        	}
+        },          
         setUniServerModel: this.setrubberRingServerModel,
         ajaxClient: function(sync) {
             var xhr = !1;
@@ -798,17 +797,7 @@ if ("undefined" == typeof livespell) {
                 //var posturl = livespell.installPath + "core/";
             	livespell.ajax.debug("send: cmd: " + cmd + ", args: " + args);
                 if ($Spelling.dictServerPath.includes("\/typo\/")) {
-                	if (cmd === "CTXSPELL") {
-                		var results = livespell.ajax.checkCtxSpelling(cmd, args, lan, note, sender);
-                	} else if (cmd === "WINSETUP") {
-                		var results = livespell.ajax.winSetup(cmd, args, lan, note, sender);
-                	} else if (cmd === "WINSUGGEST") {
-                		var results = livespell.ajax.suggestWinSpelling(cmd, args, lan, note, sender);
-                	} else {
-                		throw ("Command " + cmd + " not implemented.");
-                	}
-                   	livespell.ajax.debug(results);
-                   	livespell.ajax.pickup(results, !1);
+                	livespell.ajax.processTypoSpellCheck(cmd, args, lan, note, sender);
                 } else {                	
 	                var posturl = (($Spelling.dictServerPath === "") ? livespell.installPath : $Spelling.dictServerPath) + "core/";
 	                if ("asp.net" === serverModel) posturl += "default.ashx";
@@ -886,17 +875,7 @@ if ("undefined" == typeof livespell) {
                 //var posturl = livespell.installPath + "core/";
             	livespell.ajax.debug("send_sync: cmd: " + cmd + ", args: " + args);
                 if ($Spelling.dictServerPath.includes("\/typo\/")) {
-                	if (cmd === "CTXSPELL") {
-                		var results = livespell.ajax.checkCtxSpelling(cmd, args, lan, note, sender);
-                	} else if (cmd === "WINSETUP") {
-                		var results = livespell.ajax.winSetup(cmd, args, lan, note, sender);
-                	} else if (cmd === "WINSUGGEST") {
-                		var results = livespell.ajax.suggestWinSpelling(cmd, args, lan, note, sender);
-                	} else {
-                		throw ("Command " + cmd + " not implemented.");
-                	}
-                   	livespell.ajax.debug(results);
-                	livespell.ajax.pickup(results, !0);                
+                	livespell.ajax.processTypoSpellCheck(cmd, args, lan, note, sender);
                 } else {                	
                 	var posturl = (($Spelling.dictServerPath === "") ? livespell.installPath : $Spelling.dictServerPath) + "core/";
 	                if ("asp.net" === serverModel) posturl += "default.ashx";
@@ -1004,18 +983,32 @@ if ("undefined" == typeof livespell) {
                         }
                     }
                 }
+            }
+            // Notify NYC Changes: Added processTypoSpellCheck 
+            , processTypoSpellCheck: function(cmd, args, lan, note, sender) {
+            	if (cmd === "CTXSPELL") {
+            		var results = livespell.ajax.checkCtxSpelling(cmd, args, lan, note, sender);
+            	} else if (cmd === "WINSETUP") {
+            		var results = livespell.ajax.winSetup(cmd, args, lan, note, sender);
+            	} else if (cmd === "WINSUGGEST") {
+            		var results = livespell.ajax.suggestWinSpelling(cmd, args, lan, note, sender);
+            	} else {
+            		throw ("Command " + cmd + " not implemented.");
+            	}
+               	livespell.ajax.debug(results);
+            	livespell.ajax.pickup(results, !0);                
             },
             // NOTIFY NYC Changes: Added function for Typo JS  
             checkCtxSpelling: function(cmd, args, lan, note, sender) {
             	var aspellings = [];
             	var areasons = [];
             	if (cmd === "CTXSPELL") {
-            		if (!(lan in gTypoDictionary)) {
+            		if (!(lan in livespell.gTypoDictionary)) {
             			throw "No dictionary for language: " + lan;
             		}
             		var wordlist = args.split(livespell.str.chr(1));
             		for (i = 0; i < wordlist.length; i++) {
-                		if(gTypoDictionary[lan].check(wordlist[i])) {
+                		if(livespell.gTypoDictionary[lan].check(wordlist[i])) {
                 			aspellings[i] = 'T';
                 			areasons[i] = '-';
                 		} else {
@@ -1034,7 +1027,7 @@ if ("undefined" == typeof livespell) {
             	var t = [];
             	var r = [];
             	if (cmd === "WINSETUP") {
-            		if (!(lan in gTypoDictionary)) {
+            		if (!(lan in livespell.gTypoDictionary)) {
             			throw "No dictionary for language: " + lan;
             		}
             		t[0] = 'T';
@@ -1050,12 +1043,12 @@ if ("undefined" == typeof livespell) {
             	var suggestions = "";
             	var newSuggestions = [];
             	if (cmd === "WINSUGGEST") {
-            		if (!(lan in gTypoDictionary)) {
+            		if (!(lan in livespell.gTypoDictionary)) {
             			throw "No dictionary for language: " + lan;
             		}
             		var wordlist = args.split(livespell.str.chr(1));
             		for (i = 0; i < wordlist.length; i++) {
-            			newSuggestions = gTypoDictionary[lan].suggest(wordlist[i]);
+            			newSuggestions = livespell.gTypoDictionary[lan].suggest(wordlist[i]);
         				if (i > 0) {
         					suggestions += livespell.str.chr(1);
         				}
@@ -1317,6 +1310,7 @@ if ("undefined" == typeof livespell) {
             }
         }
     };
+        
     Array.push || Array.prototype.push || (Array.prototype.push = function() {
         for (var n = this.length >>> 0, i = 0; i < arguments.length; i++) this[n] = arguments[i], n = n + 1 >>> 0;
         return this.length = n, n
@@ -2003,11 +1997,15 @@ if ("undefined" == typeof livespell) {
                     } catch (e) {}
                 }
                 this.provider().Language = strLang, this.provider().onChangeLanguage(strLang);
+                // Notify NYC Changes: Added setup typo dictionary
+                if ($Spelling.dictServerPath.includes("\/typo\/")) {
+                	livespell.setupTypoDictionary(strLang);
+                }
                 var tProv = this.provider(),
                     fn = function() {
                         tProv.CheckInSitu()
                     };
-                setTimeout(fn, 100), this.hide()
+                setTimeout(fn, 100), this.hide()      
             }
         },
         showMultiLang: function() {

@@ -23,13 +23,15 @@
     <input type="button" value="BTN_ADD_TO_DICT" accesskey="A" id="btnAddToDict" name="btnAddToDict" onclick="spellWin.actions.addPersonal();" />
     <input type="button" value="BTN_CHANGE_ALL" accesskey="L" id="btnChangeAll" name="btnChangeAll" onclick="spellWin.actions.changeAll();" />
     <input type="button" value="BTN_AUTO_CORECT" accesskey="R" id="btnAutoCorrect" name="btnAutoCorrect" onclick="spellWin.actions.addAutoCorrect();" />
-    <input type="button" value="BTN_OPTIONS" accesskey="O" id="btnShowOptions" name="btnShowOptions" onclick="spellWin.optionsMenu.show(true);" />
+      <!--  Notify NYC Changed: hide options button  -->
+    <input type="hidden" value="BTN_OPTIONS" accesskey="O" id="btnShowOptions" name="btnShowOptions" onclick="spellWin.optionsMenu.show(true);" />
     <input type="button" value="BTN_CLEAR_EDIT" accesskey="U" id="btnUndoManualEdit" name="btnUndoManualEdit"  onclick="spellWin.ui.showEdit(false);" />
     <input type="button" value="BTN_UNDO" accesskey="U" id="btnUndo" name="btnUndo" disabled="disabled" onclick="spellWin.undo.get();" />
     <select  id="fldLanguage" name="fldLanguage" onchange="spellWin.actions.changeLanguage();">
     </select>
-      <label for="optSentence" id="CheckGrammarLab" accesskey="G">
-    <input type="checkbox" value="True" name="optSentence" id="optSentence" onchange="spellWin.ui.setGrammar()"/>
+      <!--  Notify NYC Changed: hide grammar support  -->
+      <label for="optSentence" id="CheckGrammarLab" accesskey="G" hidden>
+    <input type="hidden" value="True" name="optSentence" id="optSentence" onchange="spellWin.ui.setGrammar()"/>
     <span id="optSentenceText">OPT_SENTENCE_AWARE</span>
    </label>
   </form>
