@@ -1,11 +1,14 @@
 <html>
 <head>
 <title>JavaScriptSpellCheck - Hello World</title>
+<script type="text/javascript" src="JavaScriptSpellCheck/typo/typo.js"></script>
 <script type='text/javascript' src='JavaScriptSpellCheck/include.js' ></script>
 <script type='text/javascript'>
 <!-- DictServerPath is a Notify NYC custom field -->
-//$Spelling.DictServerPath = "https://nnycmspellcheck.azurewebsites.net/JavaScriptSpellCheck/"
-$Spelling.DictServerPath = "https://nnycmspellcheck.herokuapp.com/JavaScriptSpellCheck/"
+//$Spelling.dictServerPath = "https://nnycmspellcheck.azurewebsites.net/JavaScriptSpellCheck/"
+//$Spelling.dictServerPath = "https://nnycmspellcheck.herokuapp.com/JavaScriptSpellCheck/"
+$Spelling.dictServerPath = "JavaScriptSpellCheck/typo/typos.js"
+window.LIVESPELL_DEBUG_MODE = 1
 $Spelling.DefaultDictionary = 'English (USA)'
 $Spelling.SpellCheckAsYouType('myTextArea')
 </script>

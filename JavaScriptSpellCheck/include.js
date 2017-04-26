@@ -350,8 +350,8 @@ function LiveSpellInstance($setup) {
 }
 
 function JavaScriptSpellCheckObj($setup) {
-	// Notify NYC Changes: Added DictServerPath
-    this.DefaultDictionary = "English (International)", this.UserInterfaceTranslation = "en", this.ShowStatisticsScreen = !1, this.SubmitFormById = "", this.Theme = "modern", this.CaseSensitive = !0, this.CheckGrammar = !0, this.IgnoreAllCaps = !0, this.IgnoreNumbers = !0, this.ShowThesaurus = !0, this.ShowLanguagesInContextMenu = !1, this.ServerModel = "auto", this.PopUpStyle = "modal", this.isUniPacked = !0, this.AddWordsToDictionary = "user", this.DictServerPath = "", this.SpellCheckInWindow = function(Fields) {
+	// Notify NYC Changes: Added dictServerPath
+    this.DefaultDictionary = "English (International)", this.UserInterfaceTranslation = "en", this.ShowStatisticsScreen = !1, this.SubmitFormById = "", this.Theme = "modern", this.CaseSensitive = !0, this.CheckGrammar = !0, this.IgnoreAllCaps = !0, this.IgnoreNumbers = !0, this.ShowThesaurus = !0, this.ShowLanguagesInContextMenu = !1, this.ServerModel = "auto", this.PopUpStyle = "modal", this.isUniPacked = !0, this.AddWordsToDictionary = "user", this.dictServerPath = "", this.SpellCheckInWindow = function(Fields) {
         var o = this.createInstance(Fields, arguments);
         return o.CheckInWindow(), o
     }, this.SpellCheckAsYouType = function(Fields) {
@@ -475,12 +475,12 @@ function JavaScriptSpellCheckObj($setup) {
         return outputs.join(",")
     }, this.manageAjaxInstance = function() {
         var o = this.ajaxinstance;
-        // Notify NYC Changes: Added DictServerPath
-        return o.isUniPacked = !0, o.Language = this.DefaultDictionary, o.UserInterfaceLanguage = this.UserInterfaceTranslation, o.IgnoreAllCaps = this.IgnoreAllCaps, o.IgnoreNumeric = this.IgnoreNumbers, o.CSSTheme = this.Theme, o.WindowMode = this.PopUpStyle, o.FormToSubmit = this.SubmitFormById, o.ShowSummaryScreen = this.ShowStatisticsScreen, o.ShowMeanings = this.ShowThesaurus, o.ServerModel = this.ServerModel, o.DictServerPath = this.DictServerPath, o
+        // Notify NYC Changes: Added dictServerPath
+        return o.isUniPacked = !0, o.Language = this.DefaultDictionary, o.UserInterfaceLanguage = this.UserInterfaceTranslation, o.IgnoreAllCaps = this.IgnoreAllCaps, o.IgnoreNumeric = this.IgnoreNumbers, o.CSSTheme = this.Theme, o.WindowMode = this.PopUpStyle, o.FormToSubmit = this.SubmitFormById, o.ShowSummaryScreen = this.ShowStatisticsScreen, o.ShowMeanings = this.ShowThesaurus, o.ServerModel = this.ServerModel, o.dictServerPath = this.dictServerPath, o
     }, this.createInstance = function(Fields, PassedArgs) {
         var o = new LiveSpellInstance;
-        // Notify NYC Changes: Added DictServerPath
-        return o.isUniPacked = !0, o.Language = this.DefaultDictionary, o.UserInterfaceLanguage = this.UserInterfaceTranslation, Fields = this.findf(Fields, PassedArgs), o.Fields = this.ManageFields(Fields), o.IgnoreAllCaps = this.IgnoreAllCaps, o.IgnoreNumeric = this.IgnoreNumbers, o.WindowMode = this.PopUpStyle, o.CSSTheme = this.Theme, o.FormToSubmit = this.SubmitFormById, o.ShowSummaryScreen = this.ShowStatisticsScreen, o.ShowMeanings = this.ShowThesaurus, o.AddWordsToDictionary = this.AddWordsToDictionary, o.ShowMeanings = this.ShowThesaurus, o.ShowLangInContextMenu = this.ShowLanguagesInContextMenu, o.ServerModel = this.ServerModel, o.CaseSensitive = this.CaseSensitive, o.CheckGrammar = this.CheckGrammar, o.DictServerPath = this.DictServerPath, o
+        // Notify NYC Changes: Added dictServerPath
+        return o.isUniPacked = !0, o.Language = this.DefaultDictionary, o.UserInterfaceLanguage = this.UserInterfaceTranslation, Fields = this.findf(Fields, PassedArgs), o.Fields = this.ManageFields(Fields), o.IgnoreAllCaps = this.IgnoreAllCaps, o.IgnoreNumeric = this.IgnoreNumbers, o.WindowMode = this.PopUpStyle, o.CSSTheme = this.Theme, o.FormToSubmit = this.SubmitFormById, o.ShowSummaryScreen = this.ShowStatisticsScreen, o.ShowMeanings = this.ShowThesaurus, o.AddWordsToDictionary = this.AddWordsToDictionary, o.ShowMeanings = this.ShowThesaurus, o.ShowLangInContextMenu = this.ShowLanguagesInContextMenu, o.ServerModel = this.ServerModel, o.CaseSensitive = this.CaseSensitive, o.CheckGrammar = this.CheckGrammar, o.dictServerPath = this.dictServerPath, o
     }
 }
 
@@ -530,6 +530,17 @@ function livespell___FF__clickmanager(e) {
         } catch (e) {}
     }
 }
+
+// NOTIFY NYC
+var dictionary = {};
+var lang = "English (USA)"
+dictionary[lang] = new Typo("en_US", false, false, { dictionaryPath: "JavaScriptSpellCheck/typo/dictionaries" });
+
+//var word = "gateds"
+//var is_spelled_correctly = dictionary[lang].check(word);
+//var array_of_suggestions = dictionary[lang].suggest(word);
+//alert("Suggestions to " + word + ": " + array_of_suggestions);
+
 if ("undefined" == typeof JavaScriptSpellCheck || !JavaScriptSpellCheck) var JavaScriptSpellCheck = new JavaScriptSpellCheckObj,
     $Spelling = JavaScriptSpellCheck,
     $spelling = JavaScriptSpellCheck;
@@ -558,17 +569,21 @@ if ("undefined" == typeof livespell) {
         setrubberRingServerModel: function() {
             if (!livespell.spellingProviders[0] || !livespell.spellingProviders[0].isUniPacked) return !1;
             var mode = "";
-            // NOTIFY NYC Changes: Added dictServerPath variable
-            var dictServerPath = (($Spelling.DictServerPath === "") ? livespell.installPath : $Spelling.DictServerPath)
-            if (this.testSyncRequest(dictServerPath + "core/Default.aspx")) mode = "aspx";
-            else if (this.testSyncRequest(dictServerPath + "core/Default.ashx")) mode = "asp.net";
-            else if (this.testSyncRequest(dictServerPath + "core/index.php")) mode = "php";
-            else {
-                if (!this.testSyncRequest(dictServerPath + "core/default.asp")) {
-                    if ("undefined" == typeof window.LIVESPELL_DEBUG_MODE) throw "SpellCheck Cannot Connect to a Server!";
-                    return void livespell.ajax.debug("SpellCheck Cannot Connect to a Server!", !1)
+            // NOTIFY NYC Changes: Added dictServerPath variable and TypoJS
+            if ($Spelling.dictServerPath.search(/typo.js/i)) {
+            	mode = "typoJS";
+            } else {
+                var dictServerPath = (($Spelling.dictServerPath === "") ? livespell.installPath : $Spelling.dictServerPath)
+                if (this.testSyncRequest(dictServerPath + "core/Default.aspx")) mode = "aspx";
+                else if (this.testSyncRequest(dictServerPath + "core/Default.ashx")) mode = "asp.net";
+                else if (this.testSyncRequest(dictServerPath + "core/index.php")) mode = "php";
+                else {
+                    if (!this.testSyncRequest(dictServerPath + "core/default.asp")) {
+                        if ("undefined" == typeof window.LIVESPELL_DEBUG_MODE) throw "SpellCheck Cannot Connect to a Server!";
+                        return void livespell.ajax.debug("SpellCheck Cannot Connect to a Server!", !1)
+                    }
+                    mode = "asp"
                 }
-                mode = "asp"
             }
             return livespell.ajax.debug("<h1>Spell Check Server Mode Detected & Changed to " + mode.toUpperCase() + "</h1>", !1), livespell.rubberRingServerModel = mode, mode
         },
@@ -768,70 +783,85 @@ if ("undefined" == typeof livespell) {
                 
                 // NOTIFY NYC Changes 
                 //var posturl = livespell.installPath + "core/";
-                var posturl = (($Spelling.DictServerPath === "") ? livespell.installPath : $Spelling.DictServerPath) + "core/";
-                if ("asp.net" === serverModel) posturl += "default.ashx";
-                else if ("aspx" === serverModel) posturl += "Default.aspx";
-                else if ("asp" === serverModel) posturl += "default.asp";
-                else if ("php" === serverModel) posturl += "index.php";
-                else if ("auto" === serverModel || "" === serverModel) posturl += "";
-                else {
-                    if ("" === serverModel) throw "livespell::SeverModel not recognized: " + serverModel;
-                    posturl += "index." + serverModel
-                }
-                var settingsfile = livespell.spellingProviders[sender].SettingsFile,
-                    hasajax = !1,
-                    xhr = !1;
-                oSender.BypassAuthentication && livespell.test.IE() || (xhr = livespell.ajaxClient(!1)), xhr && (hasajax = !0);
-                try {
-                    args = encodeURIComponent(args)
-                } catch (e) {
-                    args = escape(args)
-                }
-                try {
-                    lan = encodeURIComponent(lan)
-                } catch (e) {
-                    lan = escape(lan)
-                }
-                try {
-                    settingsfile = encodeURIComponent(settingsfile)
-                } catch (e) {
-                    settingsfile = escape(settingsfile)
-                }
-                try {
-                    note = encodeURIComponent(note)
-                } catch (e) {
-                    note = escape(note)
-                }
-                try {
-                    sender = encodeURIComponent(sender)
-                } catch (e) {
-                    sender = escape(sender)
-                }
-                var params = "";
-                if (params += "note=" + note, params += "&command=" + cmd, params += "&args=" + args, params += "&lan=" + lan, params += "&sender=" + sender, params += "&settingsfile=" + settingsfile, hasajax) {
-                    var liveSpellAjaxCallbackhandler = function() {
-                        if (4 == xhr.readyState)
-                            if (200 == xhr.status) livespell.ajax.pickup(xhr.responseText, !1);
-                            else if (livespell.rubberRingServerModel != livespell.setrubberRingServerModel() && livespell.ajax.resend(), "undefined" != typeof window.LIVESPELL_DEBUG_MODE) try {
-                            xhr.responseText.length ? livespell.ajax.debug("SERVER ERROR:" + xhr.responseText, !1) : livespell.ajax.debug("SERVER ERROR - Please view this page in a browser other than IE for full details", !1)
-                        } catch (e) {
-                            livespell.ajax.debug("SERVER ERROR", !1)
-                        }
-                    };
-                    livespell.test.BuggyAjaxInFireFox() ? xhr.onload = xhr.onerror = xhr.onabort = liveSpellAjaxCallbackhandler : xhr.onreadystatechange = liveSpellAjaxCallbackhandler;
-                    var fulRequest = posturl + "?" + params;
-                    fulRequest = fulRequest.replace(/\(/, "%28"), fulRequest = fulRequest.replace(/\)/, "%29"), fulRequest = fulRequest.replace(/'/, "%27"), xhr.open("GET", fulRequest, !0);
-                    var async = !0;
-                    xhr.send(), livespell.ajax.debug("URL:" + posturl + "  <br/>  GET:" + params, async)
-                } else {
-                    livespell.ajax.renderIframe(posturl), params += "&script=true", livespell.ajax.debug("URL:" + posturl + "  <br/>  GET (IFRAME):" + params, !0);
-                    var theframe = E$(livespell.constants._IFRAME);
-                    try {
-                        var framehref = theframe.contentWindow.location.href;
-                        framehref.indexOf("about:blank") < 0 && (posturl = framehref.split("?")[0]), theframe.contentWindow.location.replace(posturl + "?" + params)
-                    } catch (e) {
-                        theframe.src = posturl + "?" + params
-                    }
+            	livespell.ajax.debug("send: cmd: " + cmd + ", args: " + args);
+                if ($Spelling.dictServerPath.search(/typo.js/i)) {
+                	if (cmd === "CTXSPELL") {
+                		var results = livespell.ajax.checkCtxSpelling(cmd, args, lan, note, sender);
+                	} else if (cmd === "WINSETUP") {
+                		var results = livespell.ajax.winSetup(cmd, args, lan, note, sender);
+                	} else if (cmd === "WINSUGGEST") {
+                		var results = livespell.ajax.suggestWinSpelling(cmd, args, lan, note, sender);
+                	} else {
+                		throw ("Command " + cmd + " not implemented.");
+                	}
+                   	livespell.ajax.debug(results);
+                   	livespell.ajax.pickup(results, !1);
+                } else {                	
+	                var posturl = (($Spelling.dictServerPath === "") ? livespell.installPath : $Spelling.dictServerPath) + "core/";
+	                if ("asp.net" === serverModel) posturl += "default.ashx";
+	                else if ("aspx" === serverModel) posturl += "Default.aspx";
+	                else if ("asp" === serverModel) posturl += "default.asp";
+	                else if ("php" === serverModel) posturl += "index.php";
+	                else if ("auto" === serverModel || "" === serverModel) posturl += "";
+	                else {
+	                    if ("" === serverModel) throw "livespell::SeverModel not recognized: " + serverModel;
+	                    posturl += "index." + serverModel
+	                }
+	                var settingsfile = livespell.spellingProviders[sender].SettingsFile,
+	                    hasajax = !1,
+	                    xhr = !1;
+	                oSender.BypassAuthentication && livespell.test.IE() || (xhr = livespell.ajaxClient(!1)), xhr && (hasajax = !0);
+	                try {
+	                    args = encodeURIComponent(args)
+	                } catch (e) {
+	                    args = escape(args)
+	                }
+	                try {
+	                    lan = encodeURIComponent(lan)
+	                } catch (e) {
+	                    lan = escape(lan)
+	                }
+	                try {
+	                    settingsfile = encodeURIComponent(settingsfile)
+	                } catch (e) {
+	                    settingsfile = escape(settingsfile)
+	                }
+	                try {
+	                    note = encodeURIComponent(note)
+	                } catch (e) {
+	                    note = escape(note)
+	                }
+	                try {
+	                    sender = encodeURIComponent(sender)
+	                } catch (e) {
+	                    sender = escape(sender)
+	                }
+	                var params = "";
+	                if (params += "note=" + note, params += "&command=" + cmd, params += "&args=" + args, params += "&lan=" + lan, params += "&sender=" + sender, params += "&settingsfile=" + settingsfile, hasajax) {
+	                    var liveSpellAjaxCallbackhandler = function() {
+	                        if (4 == xhr.readyState)
+	                            if (200 == xhr.status) livespell.ajax.pickup(xhr.responseText, !1);
+	                            else if (livespell.rubberRingServerModel != livespell.setrubberRingServerModel() && livespell.ajax.resend(), "undefined" != typeof window.LIVESPELL_DEBUG_MODE) try {
+	                            xhr.responseText.length ? livespell.ajax.debug("SERVER ERROR:" + xhr.responseText, !1) : livespell.ajax.debug("SERVER ERROR - Please view this page in a browser other than IE for full details", !1)
+	                        } catch (e) {
+	                            livespell.ajax.debug("SERVER ERROR", !1)
+	                        }
+	                    };
+	                    livespell.test.BuggyAjaxInFireFox() ? xhr.onload = xhr.onerror = xhr.onabort = liveSpellAjaxCallbackhandler : xhr.onreadystatechange = liveSpellAjaxCallbackhandler;
+	                    var fulRequest = posturl + "?" + params;
+	                    fulRequest = fulRequest.replace(/\(/, "%28"), fulRequest = fulRequest.replace(/\)/, "%29"), fulRequest = fulRequest.replace(/'/, "%27"), xhr.open("GET", fulRequest, !0);
+	                    var async = !0;
+	                    xhr.send(), livespell.ajax.debug("URL:" + posturl + "  <br/>  GET:" + params, async)
+	                } else {
+	                    livespell.ajax.renderIframe(posturl), params += "&script=true", livespell.ajax.debug("URL:" + posturl + "  <br/>  GET (IFRAME):" + params, !0);
+	                    var theframe = E$(livespell.constants._IFRAME);
+	                    try {
+	                        var framehref = theframe.contentWindow.location.href;
+	                        framehref.indexOf("about:blank") < 0 && (posturl = framehref.split("?")[0]), theframe.contentWindow.location.replace(posturl + "?" + params)
+	                    } catch (e) {
+	                        theframe.src = posturl + "?" + params
+	                    }
+	                }
                 }
             },
             send_sync: function(cmd, args, lan, note, sender) {
@@ -839,33 +869,50 @@ if ("undefined" == typeof livespell) {
                 var oSender = livespell.spellingProviders[sender],
                     serverModel = oSender.ServerModel.toLowerCase();
                 "auto" === serverModel && "" !== livespell.rubberRingServerModel && (serverModel = livespell.rubberRingServerModel);
-                var posturl = livespell.installPath + "core/";
-                if ("asp.net" === serverModel) posturl += "default.ashx";
-                else if ("aspx" === serverModel) posturl += "Default.aspx";
-                else if ("asp" === serverModel) posturl += "default.asp";
-                else if ("php" === serverModel) posturl += "index.php";
-                else if ("auto" === serverModel || "" === serverModel) posturl += "";
-                else {
-                    if ("" === serverModel) throw "livespell::SeverModel not recognized: " + serverModel;
-                    posturl += "index." + serverModel
-                }
-                var settingsfile = livespell.spellingProviders[sender].SettingsFile,
-                    xhr = livespell.ajaxClient(!0);
-                if (!xhr) return livespell.ajax.debug("SYNC REQUEST ERROR: No HTMLHTTP object or ActiveX", !1), null;
-                var params = "";
-                try {
-                    args = encodeURIComponent(args)
-                } catch (e) {
-                    args = escape(args)
-                }
-                if (params += "note=" + escape(note), params += "&command=" + cmd, params += "&args=" + args, params += "&lan=" + escape(lan), params += "&sender=" + escape(sender), params += "&settingsfile=" + escape(settingsfile), xhr.open("GET", posturl + "?" + params, !1), xhr.send(), livespell.ajax.debug("REMOTE-CALL:" + posturl + "  <br/>  GET:" + params, !0), 200 == xhr.status) return livespell.ajax.pickup(xhr.responseText, !0);
-                if (livespell.setrubberRingServerModel(), "undefined" != typeof window.LIVESPELL_DEBUG_MODE) {
-                    try {
-                        xhr.responseText.length ? livespell.ajax.debug("SERVER ERROR:" + xhr.responseText, !1) : livespell.ajax.debug("SERVER ERROR - Please view this page in a browser other than IE for full details", !1)
-                    } catch (e) {
-                        livespell.ajax.debug("SERVER ERROR", !1)
-                    }
-                    this.send_sync(cmd, args, lan, note, sender)
+                // NOTIFY NYC Changes 
+                //var posturl = livespell.installPath + "core/";
+            	livespell.ajax.debug("send_sync: cmd: " + cmd + ", args: " + args);
+                if ($Spelling.dictServerPath.search(/typo.js/i)) {
+                	if (cmd === "CTXSPELL") {
+                		var results = livespell.ajax.checkCtxSpelling(cmd, args, lan, note, sender);
+                	} else if (cmd === "WINSETUP") {
+                		var results = livespell.ajax.winSetup(cmd, args, lan, note, sender);
+                	} else if (cmd === "WINSUGGEST") {
+                		var results = livespell.ajax.suggestWinSpelling(cmd, args, lan, note, sender);
+                	} else {
+                		throw ("Command " + cmd + " not implemented.");
+                	}
+                   	livespell.ajax.debug(results);
+                	livespell.ajax.pickup(results, !0);                
+                } else {                	
+                	var posturl = (($Spelling.dictServerPath === "") ? livespell.installPath : $Spelling.dictServerPath) + "core/";
+	                if ("asp.net" === serverModel) posturl += "default.ashx";
+	                else if ("aspx" === serverModel) posturl += "Default.aspx";
+	                else if ("asp" === serverModel) posturl += "default.asp";
+	                else if ("php" === serverModel) posturl += "index.php";
+	                else if ("auto" === serverModel || "" === serverModel) posturl += "";
+	                else {
+	                    if ("" === serverModel) throw "livespell::SeverModel not recognized: " + serverModel;
+	                    posturl += "index." + serverModel
+	                }
+	                var settingsfile = livespell.spellingProviders[sender].SettingsFile,
+	                    xhr = livespell.ajaxClient(!0);
+	                if (!xhr) return livespell.ajax.debug("SYNC REQUEST ERROR: No HTMLHTTP object or ActiveX", !1), null;
+	                var params = "";
+	                try {
+	                    args = encodeURIComponent(args)
+	                } catch (e) {
+	                    args = escape(args)
+	                }
+	                if (params += "note=" + escape(note), params += "&command=" + cmd, params += "&args=" + args, params += "&lan=" + escape(lan), params += "&sender=" + escape(sender), params += "&settingsfile=" + escape(settingsfile), xhr.open("GET", posturl + "?" + params, !1), xhr.send(), livespell.ajax.debug("REMOTE-CALL:" + posturl + "  <br/>  GET:" + params, !0), 200 == xhr.status) return livespell.ajax.pickup(xhr.responseText, !0);
+	                if (livespell.setrubberRingServerModel(), "undefined" != typeof window.LIVESPELL_DEBUG_MODE) {
+	                    try {
+	                        xhr.responseText.length ? livespell.ajax.debug("SERVER ERROR:" + xhr.responseText, !1) : livespell.ajax.debug("SERVER ERROR - Please view this page in a browser other than IE for full details", !1)
+	                    } catch (e) {
+	                        livespell.ajax.debug("SERVER ERROR", !1)
+	                    }
+	                    this.send_sync(cmd, args, lan, note, sender)
+	                }
                 }
                 return null
             },
@@ -897,8 +944,8 @@ if ("undefined" == typeof livespell) {
                 } else if ("WINSUGGEST" === command) {
                     for (Suggestions = arrResult[2].split(livespell.str.chr(1)), i = 0; i < livespell.cache.suglist.length; i++)
                         for (newSuggestions = Suggestions[i].split(livespell.str.chr(2)), livespell.cache.suggestions[vLang][livespell.cache.suglist[i]] = newSuggestions, j = 0; j < newSuggestions.length; j++)
-                            for (livespell.cache.spell[vLang][newSuggestions[j]] = !0, sug_each_word = newSuggestions[j].replace(/\-/g, " ").split(" "), k = 0; k < sug_each_word.length; k++) livespell.cache.spell[vLang][sug_each_word[k]] = !0;
-                    oSender.recieveWindowSpell()
+                            for (livespell.cache.spell[vLang][newSuggestions[j]] = !0, sug_each_word = newSuggestions[j].replace(/\-/g, " ").split(" "), k = 0; k < sug_each_word.length; k++)
+                            	livespell.cache.spell[vLang][sug_each_word[k]] = !0; oSender.recieveWindowSpell()
                 } else if ("WINSETUP" === command) {
                     for (Suggestions = arrResult[4].split(livespell.str.chr(1)), t = arrResult[2].split(""), r = arrResult[3].split(livespell.str.chr(1)), i = 0; i < t.length; i++)
                         if (livespell.cache.reason[vLang][livespell.cache.wordlist[vSender][i]] = r[i], livespell.cache.spell[vLang][livespell.cache.wordlist[vSender][i]] = "T" === t[i], !livespell.cache.spell[vLang][livespell.cache.wordlist[vSender][i]] && i < Suggestions.length)
@@ -944,6 +991,72 @@ if ("undefined" == typeof livespell) {
                         }
                     }
                 }
+            },
+            // NOTIFY NYC 
+            checkCtxSpelling: function(cmd, args, lan, note, sender) {
+            	var aspellings = [];
+            	var areasons = [];
+            	if (cmd === "CTXSPELL") {
+            		if (dictionary[lang] == 'undefined') {
+            			throw "No dictionary for language: " + lang;
+            		}
+            		var wordlist = args.split(livespell.str.chr(1));
+            		for (i = 0; i < wordlist.length; i++) {
+                		if(dictionary[lang].check(wordlist[i])) {
+                			aspellings[i] = 'T';
+                			areasons[i] = '-';
+                		} else {
+                			aspellings[i] = 'F';
+                			areasons[i] = 'S';
+                		}
+                	}
+                	livespell.ajax.debug("checkSpelling: cmd: " + cmd + ", number results: " + aspellings.length);            		
+            	} else {
+                	throw "Command not yet implemented: " + cmd; 
+            	}
+            	// same result format from javascriptspellchecker server 
+            	return cmd+livespell.str.chr(5)+sender+livespell.str.chr(5)+aspellings.join("")+livespell.str.chr(5)+areasons.join("");
+            },
+            // NOTIFY NYC 
+            winSetup: function(cmd, args, lan, note, sender) {
+            	var t = [];
+            	var r = [];
+            	if (cmd === "WINSETUP") {
+            		if (dictionary[lang] == 'undefined') {
+            			throw "No dictionary for language: " + lang;
+            		}
+            		t[0] = 'T';
+            		r[0] = '';
+            	} else {
+                	throw "Command not yet implemented: " + cmd; 
+            	}
+            	// same result format from javascriptspellchecker server 
+            	return cmd+livespell.str.chr(5)+sender+livespell.str.chr(5)+t.join("")+livespell.str.chr(5)+r.join("")+livespell.str.chr(5)+lang+livespell.str.chr(2)+livespell.str.chr(5);
+            }, 
+            // NOTIFY NYC 
+            suggestWinSpelling: function(cmd, args, lan, note, sender) {
+            	var suggestions = "";
+            	var newSuggestions = [];
+            	if (cmd === "WINSUGGEST") {
+            		if (dictionary[lang] == 'undefined') {
+            			throw "No dictionary for language: " + lang;
+            		}
+            		var wordlist = args.split(livespell.str.chr(1));
+            		for (i = 0; i < wordlist.length; i++) {
+            			newSuggestions = dictionary[lang].suggest(wordlist[i]);
+        				if (i > 0) {
+        					suggestions += livespell.str.chr(1);
+        				}
+            			if (newSuggestions !== null && newSuggestions !== 'undefined' && newSuggestions.length > 0) {
+            				suggestions += newSuggestions.join(livespell.str.chr(2));
+            			}
+            		}
+            	} else {
+                	throw "Command not yet implemented: " + cmd; 
+            	}
+            	// same result format from javascriptspellchecker server 
+            	var str =  cmd+livespell.str.chr(5)+sender+livespell.str.chr(5)+suggestions;
+            	return str;
             }
         },
         cache: {
@@ -2078,9 +2191,10 @@ if ("undefined" == typeof livespell) {
             showLanguagesInContextMenu: !0,
             serverModel: "auto",
             popUpStyle: "modal",
-            DictServerPath: "", // Notify NYC Changes: Added DictServerPath
+            dictServerPath: "", // Notify NYC Changes: Added dictServerPath
+            
         },
-        // Notify NYC Changes: Added DictServerPath
+        // Notify NYC Changes: Added dictServerPath
         livespell$defaults_map = ["DefaultDictionary", "UserInterfaceTranslation", "ShowStatisticsScreen", "SubmitFormById", "Theme", "CaseSensitive", "CheckGrammar", "IgnoreAllCaps", "IgnoreNumbers", "ShowThesaurus", "ShowLanguagesInContextMenu", "ServerModel", "PopUpStyle", "DictServerPath"],
-        livespell$defaults_alt = ["defaultDictionary", "userInterfaceTranslation", "showStatisticsScreen", "submitFormById", "theme", "caseSensitive", "checkGrammar", "ignoreAllCaps", "ignoreNumbers", "showThesaurus", "showLanguagesInContextMenu", "serverModel", "popUpStyle", "DictServerPath"]
+        livespell$defaults_alt = ["defaultDictionary", "userInterfaceTranslation", "showStatisticsScreen", "submitFormById", "theme", "caseSensitive", "checkGrammar", "ignoreAllCaps", "ignoreNumbers", "showThesaurus", "showLanguagesInContextMenu", "serverModel", "popUpStyle", "dictServerPath"]
 }(jQuery);
