@@ -1,21 +1,37 @@
 <html>
 <head>
-<title>JavaScriptSpellCheck - Hello World</title>
+<title>JavaScriptSpellCheck - Notify NYC</title>
 <script type="text/javascript" src="JavaScriptSpellCheck/typo/typo.js"></script>
 <script type='text/javascript' src='JavaScriptSpellCheck/include.js' ></script>
 <script type='text/javascript'>
 //window.LIVESPELL_DEBUG_MODE = 1
 //$Spelling.DefaultDictionary = 'English (USA)'
 //DictServerPath is a Notify NYC custom field
-//$Spelling.dictServerPath = "https://nnycmspellcheck.azurewebsites.net/JavaScriptSpellCheck/"
 //$Spelling.dictServerPath = "https://nnycmspellcheck.herokuapp.com/JavaScriptSpellCheck/"
 $Spelling.dictServerPath = "JavaScriptSpellCheck/typo/"
 $Spelling.SpellCheckAsYouType('myTextArea')
+
+onSubmitClick = function() {
+	var r = onSpellCheckClick();
+	r.onDialogClose = function() {
+		var c = confirm('Submit Notification?');
+		if (c == true) {
+			// call submit process here
+			alert("Notification submitted");
+		}		
+	}
+}
+
+onSpellCheckClick = function() {
+	return $Spelling.SpellCheckInWindow('myTextArea');
+}
+
 </script>
 </head>
 <body>
-<textarea name="myTextArea"  id="myTextArea" cols="50" rows="20">Hello Worlb. This Example show JavaScript Spellcheck "as-you-Type" and also spellchecking window functionality on the same page.  Implementation is easy using only a few lines of Java Script - and will work on alost all modern web hosting packages - both Linux and Windows based. </textarea>
-<input type="button" value="Spell Check" onclick="$Spelling.SpellCheckInWindow('myTextArea')">
+<textarea name="myTextArea"  id="myTextArea" cols="50" rows="20">New York City is experiencing intermitttent wind gusto in excess of 40 MPH. During periods of high winds, residnts should use caution when walking or driving high profile vehikles. Winds at these speeds can cause flying debris, turn unsecured objects into projectiles, and cause power outages. To prepare, charge cell phone batteries, gather supplies, and turn refrigerators and freezers to a colder setting. Always stay clear of downed power lines. If you are affected by an outage, turn off all appliances and keep refrigerator and freezer doors closed to prevent food spoilage. Do not use generators indoors. If you lose power and have a disability or access needs, or use Life Sustaining Equipment (LSE) and need immediate assistance, please dial 9-1-1. For the latest weather information, please visit www.weather.gov/nyc.</textarea>
+<input type="button" value="Spell Check" onclick="onSpellCheckClick();">
+<input type="button" value="Submit" onclick="onSubmitClick();">
 </body>
 </html>
 
