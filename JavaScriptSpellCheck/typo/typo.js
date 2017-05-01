@@ -233,12 +233,12 @@ Typo.prototype = {
 			var req = null;
 			// Notify NYC Changed: Open for IE first --> If fail then open for generic XMLHttpRequest
 			try {
-				req = new XMLHttpRequest();
-			} catch (e) {
 				req = new ActiveXObject("Microsoft.XMLHTTP");
+			} catch (e) {
+				req = new XMLHttpRequest();
 			}
 			
-			// Notify NYC Added
+			// Notify NYC Added other a bug in IE
 			if (async === undefined)
 				async = false;
 			
