@@ -480,7 +480,7 @@ function JavaScriptSpellCheckObj($setup) {
     }, this.createInstance = function(Fields, PassedArgs) {
         var o = new LiveSpellInstance;
         // Notify NYC Changes: Added setup typo dictionary
-        if (this.dictServerPath.includes("\/typo\/")) {
+        if (this.dictServerPath.search("\/typo\/") > -1) {
         	livespell.setupTypoDictionary(this.DefaultDictionary);
         }
         // Notify NYC Changes: Added dictServerPath
@@ -573,7 +573,7 @@ if ("undefined" == typeof livespell) {
             if (!livespell.spellingProviders[0] || !livespell.spellingProviders[0].isUniPacked) return !1;
             var mode = "";
             // NOTIFY NYC Changes: Added dictServerPath variable and TypoJS
-            if ($Spelling.dictServerPath.includes("\/typo\/")) {
+            if ($Spelling.dictServerPath.search("\/typo\/") > -1) {
             	mode = "typoJS";
             } else {
                 var dictServerPath = (($Spelling.dictServerPath === "") ? livespell.installPath : $Spelling.dictServerPath)
@@ -796,7 +796,7 @@ if ("undefined" == typeof livespell) {
                 // NOTIFY NYC Changes: Added logic to use Typo JS  
                 //var posturl = livespell.installPath + "core/";
             	livespell.ajax.debug("send: cmd: " + cmd + ", args: " + args);
-                if ($Spelling.dictServerPath.includes("\/typo\/")) {
+                if ($Spelling.dictServerPath.search("\/typo\/") > -1) {
                 	livespell.ajax.processTypoSpellCheck(cmd, args, lan, note, sender);
                 } else {                	
 	                var posturl = (($Spelling.dictServerPath === "") ? livespell.installPath : $Spelling.dictServerPath) + "core/";
@@ -874,7 +874,7 @@ if ("undefined" == typeof livespell) {
                 // NOTIFY NYC Changes: Added logic to use Typo JS 
                 //var posturl = livespell.installPath + "core/";
             	livespell.ajax.debug("send_sync: cmd: " + cmd + ", args: " + args);
-                if ($Spelling.dictServerPath.includes("\/typo\/")) {
+                if ($Spelling.dictServerPath.search("\/typo\/") > -1) {
                 	livespell.ajax.processTypoSpellCheck(cmd, args, lan, note, sender);
                 } else {                	
                 	var posturl = (($Spelling.dictServerPath === "") ? livespell.installPath : $Spelling.dictServerPath) + "core/";
@@ -1998,7 +1998,7 @@ if ("undefined" == typeof livespell) {
                 }
                 this.provider().Language = strLang, this.provider().onChangeLanguage(strLang);
                 // Notify NYC Changes: Added setup typo dictionary
-                if ($Spelling.dictServerPath.includes("\/typo\/")) {
+                if ($Spelling.dictServerPath.search("\/typo\/") > -1) {
                 	livespell.setupTypoDictionary(strLang);
                 }
                 var tProv = this.provider(),
