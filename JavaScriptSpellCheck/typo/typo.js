@@ -227,20 +227,18 @@ Typo.prototype = {
 	_readFile : function (path, charset, async) {
 		charset = charset || "utf8";
 		
-		// JCN Changed this to support IE
-		if (typeof XMLHttpRequest !== 'undefined') {
+		// Notify NYC Changed this to support IE
+		if (typeof XMLHttpRequest !== 'undefined' || typeof ActiveXObject !== 'undefined') {
 			var promise;			
 			var req = null;
+			// Notify NYC Changed: Open for IE first --> If fail then open for generic XMLHttpRequest
 			try {
 				req = new ActiveXObject("Microsoft.XMLHTTP");
-				alert ("ActiveXObject");
 			} catch (e) {
 				req = new XMLHttpRequest();
-				alert ("XMLHttpRequest");
 			}
 				
 			req.open("GET", path, async);
-			alert ("typo path = " + path);
 			
 			if (async) {
 				promise = new Promise(function(resolve, reject) {
