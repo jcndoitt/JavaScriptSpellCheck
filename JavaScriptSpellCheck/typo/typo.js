@@ -264,8 +264,7 @@ Typo.prototype = {
 			if (req.overrideMimeType)
 				req.overrideMimeType("text/plain; charset=" + charset);
 		
-			req.send();
-			//req.send(null);
+			req.send(null);			
 			
 			return async ? promise : req.responseText;
 		}

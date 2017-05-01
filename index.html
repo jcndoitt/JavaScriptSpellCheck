@@ -13,17 +13,37 @@ $Spelling.SpellCheckAsYouType('myTextArea')
 
 onSubmitClick = function() {
 	var r = onSpellCheckClick();
-	r.onDialogClose = function() {
-		var c = confirm('Submit Notification?');
-		if (c == true) {
-			// call submit process here
-			alert("Notification submitted");
-		}		
+	
+	if (!isInternetExplorer()) {
+		r.onDialogClose = function() {
+			confirmSubmit();
+		}
+	} else { // different processing for IE
+		confirmSubmit();
 	}
+
 }
 
 onSpellCheckClick = function() {
 	return $Spelling.SpellCheckInWindow('myTextArea');
+}
+
+isInternetExplorer = function() {
+	  var ua = window.navigator.userAgent;
+	  if (ua.indexOf('MSIE ') > 0 // IE 10 and older
+			  || (ua.indexOf('Trident/') > 0 && ua.indexOf('rv:') > 0)) // IE 11
+	  {
+		  return true;
+	  }
+	  return false;
+}
+
+confirmSubmit = function() {
+	var c = confirm('Submit Notification?');
+	if (c == true) {
+		// call submit process here
+		alert("Notification submitted");
+	}		
 }
 
 </script>
