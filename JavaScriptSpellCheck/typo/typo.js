@@ -228,17 +228,19 @@ Typo.prototype = {
 		charset = charset || "utf8";
 		
 		// JCN Changed this to support IE
-		if (typeof XMLHttpRequest !== 'undefined' || typeof ActiveXObject !== 'undefined') {
+		if (typeof XMLHttpRequest !== 'undefined') {
 			var promise;			
 			var req = null;
-				
-			if (typeof ActiveXObject!== 'undefined')
-				req = new ActiveXObject("Microsoft.XMLHTTP")
-			else 
+			try {
+				req = new ActiveXObject("Microsoft.XMLHTTP");
+				alert ("ActiveXObject");
+			} catch (e) {
 				req = new XMLHttpRequest();
-			
+				alert ("XMLHttpRequest");
+			}
+				
 			req.open("GET", path, async);
-			alert ("path = " + path);
+			alert ("typo path = " + path);
 			
 			if (async) {
 				promise = new Promise(function(resolve, reject) {
