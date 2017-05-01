@@ -239,7 +239,7 @@ Typo.prototype = {
 			}
 			
 			// Notify NYC Added
-			if (async === 'undefined')
+			if (async === undefined)
 				async = false;
 			
 			req.open("GET", path, async);
