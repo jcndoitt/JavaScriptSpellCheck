@@ -237,7 +237,11 @@ Typo.prototype = {
 			} catch (e) {
 				req = new XMLHttpRequest();
 			}
-				
+			
+			// Notify NYC Added
+			if (async === 'undefined')
+				async = false;
+			
 			req.open("GET", path, async);
 			
 			if (async) {
@@ -260,7 +264,8 @@ Typo.prototype = {
 			if (req.overrideMimeType)
 				req.overrideMimeType("text/plain; charset=" + charset);
 		
-			req.send(null);
+			req.send();
+			//req.send(null);
 			
 			return async ? promise : req.responseText;
 		}
