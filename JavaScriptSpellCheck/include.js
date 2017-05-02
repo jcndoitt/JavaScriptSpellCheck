@@ -557,7 +557,7 @@ if ("undefined" == typeof livespell) {
     	// Only English is supported now
     	gLanguageMap : {
     			"English (USA)" : "en_US", 
-    			"English (International)" : "en_US",
+    			"English (International)" : "en_US"
     	},
     	gTypoDictionary: {},
         getElementsByClass: function(className) {
