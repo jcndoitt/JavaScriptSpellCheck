@@ -2201,7 +2201,7 @@ if ("undefined" == typeof livespell) {
             showLanguagesInContextMenu: !0,
             serverModel: "auto",
             popUpStyle: "modal",
-            dictServerPath: "", // Notify NYC Changes: Added dictServerPath
+            dictServerPath: "" // Notify NYC Changes: Added dictServerPath
             
         },
         // Notify NYC Changes: Added dictServerPath
